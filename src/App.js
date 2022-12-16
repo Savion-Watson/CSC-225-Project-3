@@ -1,6 +1,12 @@
 
 import './App.css'; 
 import Button from "./Components/Button";
+import Loading from "./Components/Loading"; 
+import Employee from "./Components/Employee"; 
+import EmployeeList from "./Components/EmployeeList"; 
+import Error from "./Components/Error"; 
+import {useEffect,  useState } from 'react';
+import axios from 'axios';
 
 function App() { 
 
@@ -11,41 +17,63 @@ function App() {
   } 
 
 
-  function employeeCard() {
-    return (
-      <div class="col-md-6 col-lg-3"> 
-        <div class="card bg-light">
-          <div class="card-body text-center"> 
-            
-            <img src="images/iconmonstr-user-20.svg" alt = "A user icon"/> 
-            
-            <h3 class="card-title mb-3 p-3"> Name </h3> 
-            
-            <p class="card-text"> <strong>"Start Date"</strong></p> 
-            <p class="card-text"> <strong>"Role"</strong></p> 
-            <p class="card-text"> <strong>"Department"</strong></p>
-          </div> 
-        </div> 
-        </div> 
-    );
+  // Variables:
+  const [loading, setLoading] = useState(true);  
+  const [employeeData, setEmployeeData] = useState([]);  
+  
+  // Listener for loading
+  useEffect(() => { console.log(`loading changed to ${loading}`); }, [loading]); 
+ 
+
+  useEffect(() => { getEmployeeData() }, []); 
+  
+  
+  //Makes an API call (w/ Axios) and puts the data in employeeData. loading is toggled when appropriate
+  const getEmployeeData = () => {
+    setLoading(true);
+    axios.get('https://api.matgargano.com/employees/').then(response => {setEmployeeData(response.data); setLoading(false)})
   }
-  
-  
   
   return ( 
     <div className='main'>
-      <section class = "p-5  text-sm-start" id="Features">
-      <div className='container'>  
-  
-        <Button clickHandler={clickHandler}> Click Me </Button>  
         
-        <div>
-          {employeeCard()}
-        </div> 
+
+        <div className="container">  
+          <section className = "p-5  text-sm-start" id="Features"> 
+            {/* <div className="align-items-center text-center p-4">
+              <Button clickHandler={toggleLoading} class="align-items-center"> <h1 class="display-2">  Click Here to Fetch </h1>  </Button>
+            </div> */}
+              
+
+            {/* Loading Checks  */}   
+
+            {/* If loading is true, show loading component */}
+            {!!loading &&  <Loading></Loading>} 
+            
+            {/* If loading is true, show other components */}
+            {!loading && 
+            <div> 
+              {/* Listing of Employees (just names and maybe roles) */} 
+              <EmployeeList data={employeeData}></EmployeeList>
+
+              {/* Individual Employees (with all info) */} 
+              <Employee data={employeeData}></Employee>
+
+
+              {/* Error */} 
+              <Error></Error>
+            </div>
+            
+            }
+
+
+             
+
+          </section>
         </div>
-      </section>
         
-      </div>
+        
+    </div>
     
     
     
