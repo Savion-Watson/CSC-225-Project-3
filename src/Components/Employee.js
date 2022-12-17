@@ -7,7 +7,7 @@ const Employee = (props) => {
     return ( 
 
         
-        <div className="col-md-6 col-lg-3">
+        <div className="col-md-6 col-lg-3 p-4">
           <div class="card bg-light">
            <div class="card-body text-center"> 
    
@@ -21,7 +21,8 @@ const Employee = (props) => {
              
              {/* Extra info */} 
              <p class="card-text fs-4"> <u>Start Date:</u> {props.data.startDate}</p>  
-             <p class="card-text fs-4"> <u>Role:</u> {props.data.role}</p>
+             <p class="card-text fs-4"> <u>Role:</u> {props.data.role}</p> 
+             <button type="button" onClick={props.resetState} class="btn btn-secondary">Back to List</button>
            </div> 
          </div> 
         </div>    

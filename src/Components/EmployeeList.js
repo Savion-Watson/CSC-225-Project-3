@@ -14,7 +14,7 @@ const EmployeeList = (props) => {
       return ( 
 
         
-      <div className="col-md-6 col-lg-3">
+      <div className="col-md-6 col-lg-3 m-4">
         <div class="card bg-light">
          <div class="card-body text-center"> 
  

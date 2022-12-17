@@ -21,13 +21,20 @@ function App() {
   const [loading, setLoading] = useState(true);  
   const [employeeData, setEmployeeData] = useState([]);  
   const [selectedEmployee, setSelectedEmployee] = useState(null);  // Becomes the selected employee ID when "See More" is clicked 
-  
+  const [error, setError] = useState(null);
   // Listener for loading
   useEffect(() => { console.log(`loading changed to ${loading}`); }, [loading]); 
  
 
   useEffect(() => { getEmployeeData() }, []); 
   
+  //Sets specific data to null, so we return to the initial screen
+  const resetState = () => {
+    setEmployeeData([]); 
+    getEmployeeData(); 
+    setSelectedEmployee(null); 
+    setLoading(true);
+  }
   
   //Makes an API call (w/ Axios) and puts the data in employeeData. loading is toggled when appropriate
   const getEmployeeData = (id = null) => {
@@ -47,7 +54,11 @@ function App() {
 
     //Goes the individual employee link when id has a (corresponding) value
     axios.get(`https://api.matgargano.com/employees/${actualID}`).then(response => {setEmployeeData(response.data); 
-    setLoading(false);})
+    setLoading(false);}) 
+
+    .catch( (error) => {
+      setError(true);
+    } )
   }
   
   useEffect( () => {
@@ -66,11 +77,14 @@ function App() {
 
           
           
-            {/* <div className="align-items-center text-center p-4">
-              <Button clickHandler={toggleLoading} class="align-items-center"> <h1 class="display-2">  Click Here to Fetch </h1>  </Button>
-            </div> */}
-              
+           
+            {/* Error Check */}  
+            {!!error &&  <Error></Error>} 
 
+
+            {/* If there's no error, render everything else: */}
+            {!error && <>
+            
             {/* Loading Checks  */}   
 
             {/* If loading is true, show loading component */}
@@ -84,7 +98,7 @@ function App() {
               <h2 class="text-center p-3 fw-bold"> Company Employees </h2>
               
               <div class="container">
-                <div class="row-lg-3 g-4 text-center">  
+                <div class="row-lg-3 g-4">  
                   <EmployeeList 
                   data={employeeData} 
                   setSelectedEmployee={setSelectedEmployee}></EmployeeList>
@@ -102,16 +116,24 @@ function App() {
                 <div class="container">
                   <div class="row-lg-3 g-4 text-center">  
                     <Employee  
-                    data={employeeData}></Employee>
+                    data={employeeData} resetState={resetState}></Employee>
                   </div>
                 </div>
               </section>
                /*End of Individual Employees*/ } 
+            
+            </>
+            
+            
+            
+            }
+
+            
               
 
 
-              {/* Error */} 
-              <Error></Error>
+              
+              
             
             
             
