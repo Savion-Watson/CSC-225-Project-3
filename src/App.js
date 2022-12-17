@@ -20,6 +20,7 @@ function App() {
   // Variables:
   const [loading, setLoading] = useState(true);  
   const [employeeData, setEmployeeData] = useState([]);  
+  const [selectedEmployee, setSelectedEmployee] = useState(null);  // Becomes the selected employee ID when "See More" is clicked 
   
   // Listener for loading
   useEffect(() => { console.log(`loading changed to ${loading}`); }, [loading]); 
@@ -29,17 +30,42 @@ function App() {
   
   
   //Makes an API call (w/ Axios) and puts the data in employeeData. loading is toggled when appropriate
-  const getEmployeeData = () => {
+  const getEmployeeData = (id = null) => {
     setLoading(true);
-    axios.get('https://api.matgargano.com/employees/').then(response => {setEmployeeData(response.data); setLoading(false)})
+    
+
+    
+    //Only the ID from the API call. Is '' by default so the link can work
+    let actualID = ''; 
+
+    //Parses the needed value for actualID
+    if(!!id && parseInt(id,10) > 0) {
+      actualID = parseInt(id,10);
+    }
+
+  
+
+    //Goes the individual employee link when id has a (corresponding) value
+    axios.get(`https://api.matgargano.com/employees/${actualID}`).then(response => {setEmployeeData(response.data); 
+    setLoading(false);})
   }
   
+  useEffect( () => {
+
+    //When an employee is selected, pass in relevant data
+    if(!!selectedEmployee) {
+      getEmployeeData(selectedEmployee);
+    }
+    
+    }, [selectedEmployee]   )
+
+
   return ( 
     <div className='main'>
         
 
-        <div className="container">  
-          <section className = "p-5  text-sm-start" id="Features"> 
+          
+          
             {/* <div className="align-items-center text-center p-4">
               <Button clickHandler={toggleLoading} class="align-items-center"> <h1 class="display-2">  Click Here to Fetch </h1>  </Button>
             </div> */}
@@ -51,26 +77,50 @@ function App() {
             {!!loading &&  <Loading></Loading>} 
             
             {/* If loading is true, show other components */}
-            {!loading && 
-            <div> 
+            {!loading && !selectedEmployee &&
+            
+            <section> 
               {/* Listing of Employees (just names and maybe roles) */} 
-              <EmployeeList data={employeeData}></EmployeeList>
+              <h2 class="text-center p-3 fw-bold"> Company Employees </h2>
+              
+              <div class="container">
+                <div class="row-lg-3 g-4 text-center">  
+                  <EmployeeList 
+                  data={employeeData} 
+                  setSelectedEmployee={setSelectedEmployee}></EmployeeList>
+                </div>
+              </div>
+            </section>
+            /*End of Employee List*/ }
+              
 
-              {/* Individual Employees (with all info) */} 
-              <Employee data={employeeData}></Employee>
+              {/* Individual Employees (with all info) */}  
+              {!!selectedEmployee && !loading &&
+              <section>
+                <h2 class="text-center p-3 fw-bold"> Employee Closeup </h2>
+              
+                <div class="container">
+                  <div class="row-lg-3 g-4 text-center">  
+                    <Employee  
+                    data={employeeData}></Employee>
+                  </div>
+                </div>
+              </section>
+               /*End of Individual Employees*/ } 
+              
 
 
               {/* Error */} 
               <Error></Error>
-            </div>
             
-            }
+            
+            
 
 
              
 
-          </section>
-        </div>
+        
+        
         
         
     </div>

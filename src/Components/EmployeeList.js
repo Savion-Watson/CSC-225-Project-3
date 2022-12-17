@@ -2,31 +2,33 @@
 
 // import icon from 'src/usericon.svg';
 const EmployeeList = (props) => {
+  
+  
+  const updateEmployee = (employeeID) => {
+      props.setSelectedEmployee(employeeID);
+  }
+  
   return <div>{
     // For every employee called from the prop data...
     props.data.map(employee => {
-      return (
-                <div class="col-md-6 col-lg-3"> 
-      <div class="card bg-light">
+      return ( 
+
+        
+      <div className="col-md-6 col-lg-3">
+        <div class="card bg-light">
          <div class="card-body text-center"> 
-          
-           <div class=""> 
-            <img src="" alt="ICON" /> 
-           </div>
-          
-          
+ 
           {/* Default Info */}
-           <h3 class="card-title mb-3 p-3"> {employee.name}</h3> 
-           <p class="card-text"> <strong> {employee.id}</strong></p> 
-           <p class="card-text"> <strong>{employee.department}</strong></p> 
+           <h3 class="card-title mb-3 p-3 fw-bold"> {employee.name}</h3> 
+           <p class="card-text fs-4"> <u>Department:</u> {employee.department}</p> 
            
            {/* Extra info */} 
-           <button type="button" class="btn btn-secondary">See More</button>
-           <p class="card-text"> <strong>"Start Date"</strong></p>  
-           <p class="card-text"> <strong>"Role"</strong></p>
+           <button type="button" onClick={() => {updateEmployee(employee.id)} } class="btn btn-secondary">See More</button>
          </div> 
        </div> 
-       </div>
+      </div>    
+      
+      
                );
     })
     
