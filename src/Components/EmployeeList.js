@@ -8,14 +8,14 @@ const EmployeeList = (props) => {
       props.setSelectedEmployee(employeeID);
   }
   
-  return <div>{
+  return <div class="col-md-4 col-lg-6 p-4">{
     // For every employee called from the prop data...
     props.data.map(employee => {
       return ( 
 
         
-      <div className="col-md-6 col-lg-3 m-4">
-        <div class="card bg-light">
+      <>
+        <div class="card bg-light mb-4">
          <div class="card-body text-center"> 
  
           {/* Default Info */}
@@ -26,7 +26,7 @@ const EmployeeList = (props) => {
            <button type="button" onClick={() => {updateEmployee(employee.id)} } class="btn btn-secondary">See More</button>
          </div> 
        </div> 
-      </div>    
+      </>    
       
       
                );

@@ -97,8 +97,8 @@ function App() {
               {/* Listing of Employees (just names and maybe roles) */} 
               <h2 class="text-center p-3 fw-bold"> Company Employees </h2>
               
-              <div class="container">
-                <div class="row-lg-3 g-4">  
+              <div class="container text-center">
+                <div class="row justify-content-center">  
                   <EmployeeList 
                   data={employeeData} 
                   setSelectedEmployee={setSelectedEmployee}></EmployeeList>
@@ -111,10 +111,10 @@ function App() {
               {/* Individual Employees (with all info) */}  
               {!!selectedEmployee && !loading &&
               <section>
-                <h2 class="text-center p-3 fw-bold"> Employee Closeup </h2>
+                <h2 class="text-center p-3 fw-bold"> Employee Info </h2>
               
-                <div class="container">
-                  <div class="row-lg-3 g-4 text-center">  
+                <div class="container text-center m-4">
+                  <div class="row justify-content-center">  
                     <Employee  
                     data={employeeData} resetState={resetState}></Employee>
                   </div>

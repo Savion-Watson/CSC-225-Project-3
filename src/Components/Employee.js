@@ -7,14 +7,14 @@ const Employee = (props) => {
     return ( 
 
         
-        <div className="col-md-6 col-lg-3 p-4">
+        <div className="col-md-6 col-lg-4 p-4">
           <div class="card bg-light">
            <div class="card-body text-center"> 
    
             <img src={props.data.photo} alt="ICON" class="card-img-top" /> 
            
             {/* Default Info */}
-             <h3 class="card-title mb-3 p-3 fw-bolder"> {props.data.name}</h3> 
+             <h3 class="card-title mb-3 p-3 fw-bolder text-center"> {props.data.name}</h3> 
              <p class="card-text fs-4"> <u>Department:</u> {props.data.department}</p>
              <p class="card-text fs-4"> <u>ID#:</u> {props.data.id}</p> 
               
